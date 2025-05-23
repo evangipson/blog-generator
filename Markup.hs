@@ -8,6 +8,7 @@ data Structure =
     | UnorderedList [String]
     | OrderedList [String]
     | CodeBlock [String]
+    deriving Show
 
 example1 :: Document
 example1 = [Paragraph "Hello, world!"]

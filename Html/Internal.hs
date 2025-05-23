@@ -19,18 +19,24 @@ html_ title content =
             el "head" (el "title" (escape title)) <>
                 el "body" (getStructureString content)
 
-p_ :: String -> Structure = Structure . el "p" . escape
+p_ :: String -> Structure
+p_ = Structure . el "p" . escape
 
-h1_ :: String -> Structure = Structure . el "h1" . escape
+h1_ :: String -> Structure
+h1_ = Structure . el "h1" . escape
 
-ul_ :: [Structure] -> Structure = list_ "ul"
+ul_ :: [Structure] -> Structure
+ul_ = list_ "ul"
 
-ol_ :: [Structure] -> Structure = list_ "ol"
+ol_ :: [Structure] -> Structure
+ol_ = list_ "ol"
 
-code_ :: String -> Structure = Structure . el "pre" . escape
+code_ :: String -> Structure
+code_ = Structure . el "pre" . escape
 
-append_ :: Structure -> Structure -> Structure
-append_ a b = Structure $ getStructureString a <> getStructureString b
+instance Semigroup Structure where
+    (<>) :: Structure -> Structure -> Structure
+    c1 <> c2 = Structure (getStructureString c1 <> getStructureString c2)
 
 -- HELPERS
 list_ :: String -> [Structure] -> Structure
