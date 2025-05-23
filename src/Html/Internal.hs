@@ -1,6 +1,9 @@
 -- INTERNAL EXPORT
 module Html.Internal where
 
+-- IMPORTS
+import Numeric.Natural
+
 -- TYPES
 newtype Html = Html String
 newtype Structure = Structure String
@@ -22,8 +25,8 @@ html_ title content =
 p_ :: String -> Structure
 p_ = Structure . el "p" . escape
 
-h1_ :: String -> Structure
-h1_ = Structure . el "h1" . escape
+h_ :: Natural -> String -> Structure
+h_ n = Structure . el ("h" <> show n) . escape
 
 ul_ :: [Structure] -> Structure
 ul_ = list_ "ul"
@@ -37,6 +40,9 @@ code_ = Structure . el "pre" . escape
 instance Semigroup Structure where
     (<>) :: Structure -> Structure -> Structure
     c1 <> c2 = Structure (getStructureString c1 <> getStructureString c2)
+
+instance Monoid Structure where
+    mempty = Structure ""
 
 -- HELPERS
 list_ :: String -> [Structure] -> Structure
